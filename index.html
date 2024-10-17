@@ -116,7 +116,16 @@
         async function cargarImagenes() {
             try {
                 const response = await fetch('https://api.github.com/repos/miguelangel323/Mi-Vida-Te-Amo/contents/img');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
+                
+                if (!Array.isArray(data)) {
+                    console.error('La respuesta de la API no es un array:', data);
+                    throw new Error('Formato de respuesta inesperado');
+                }
+
                 imagenes = data.filter(file => file.type === 'file' && /\.(jpe?g|png|gif)$/i.test(file.name))
                                .map(file => file.download_url);
                 
@@ -128,22 +137,31 @@
                 imagenes.forEach((src, index) => {
                     const slide = document.createElement('div');
                     slide.className = 'carrusel-slide';
-                    slide.innerHTML = `<img src="${src}" alt="Foto ${index + 1}" onerror="this.onerror=null; this.src='ruta/a/imagen/por/defecto.jpg';">`;
+                    slide.innerHTML = `<img src="${src}" alt="Foto ${index + 1}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Imagen+no+disponible';">`;
                     carruselContenedor.appendChild(slide);
                 });
 
                 actualizarCarrusel();
             } catch (error) {
                 console.error('Error al cargar las imágenes:', error);
-                mostrarMensajeError();
+                mostrarMensajeError(error.message);
             }
         }
 
-        function mostrarMensajeError() {
+        function mostrarMensajeError(mensaje) {
             const mensajeError = document.createElement('div');
-            mensajeError.textContent = 'Lo siento, no se pudieron cargar las imágenes. Por favor, inténtalo de nuevo más tarde.';
+            mensajeError.innerHTML = `
+                <p>Lo siento, no se pudieron cargar las imágenes: ${mensaje}.</p>
+                <p>Por favor, verifica que:</p>
+                <ul>
+                    <li>El repositorio "Mi-Vida-Te-Amo" existe y es público.</li>
+                    <li>La carpeta "img" existe en la raíz del repositorio.</li>
+                    <li>La carpeta "img" contiene imágenes.</li>
+                </ul>
+                <p>Si el problema persiste, contacta al administrador del sitio.</p>
+            `;
             mensajeError.style.color = 'white';
-            mensajeError.style.textAlign = 'center';
+            mensajeError.style.textAlign = 'left';
             mensajeError.style.padding = '20px';
             carruselContenedor.appendChild(mensajeError);
         }
