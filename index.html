@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Momentos Imborrables</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #333333; /* Fondo oscuro */
+            color: #ffffff; /* Texto blanco */
+            padding: 20px 0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            margin: 20px 0 30px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        @keyframes tituloAnimacion {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .carrusel {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            height: 60vh;
+            overflow: hidden;
+            margin: 20px 0;
+            border: 1px solid #333; /* Borde más oscuro */
+            border-radius: 10px; /* Bordes redondeados */
+            box-shadow: 0 0 20px rgba(255,255,255,0.1); /* Sombra suave */
+        }
+        .carrusel-contenedor {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        .carrusel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(0.8) rotate(-5deg);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .carrusel-slide.activo {
+            opacity: 1;
+            transform: scale(1) rotate(0);
+        }
+        .carrusel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+            border-radius: 5px;
+        }
+        .carrusel-boton {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            z-index: 10;
+        }
+        .carrusel-boton:hover {
+            background: rgba(255,255,255,0.4);
+        }
+        .carrusel-boton-izquierda { left: 10px; }
+        .carrusel-boton-derecha { right: 10px; }
+    </style>
+</head>
+<body>
+    <h1>❤️ Momentos Imborrables ❤️</h1>
+    <div class="carrusel">
+        <div class="carrusel-contenedor" id="carruselContenedor">
+            <!-- Aquí irán tus imágenes -->
+            <div class="carrusel-slide"><img src="img1.jpeg" alt="Foto 1"></div>
+            <div class="carrusel-slide"><img src="img2.jpeg" alt="Foto 2"></div>
+            <div class="carrusel-slide"><img src="img3.jpeg" alt="Foto 3"></div>
+            <!-- Agrega más imágenes según sea necesario -->
+        </div>
+        <button class="carrusel-boton carrusel-boton-izquierda" id="botonIzquierda">&lt;</button>
+        <button class="carrusel-boton carrusel-boton-derecha" id="botonDerecha">&gt;</button>
+    </div>
+
+    <script>
+        const carruselContenedor = document.getElementById('carruselContenedor');
+        const slides = document.querySelectorAll('.carrusel-slide');
+        const botonIzquierda = document.getElementById('botonIzquierda');
+        const botonDerecha = document.getElementById('botonDerecha');
+
+        let posicionActual = 0;
+
+        function actualizarCarrusel() {
+            slides.forEach((slide, index) => {
+                if (index === posicionActual) {
+                    slide.classList.add('activo');
+                } else {
+                    slide.classList.remove('activo');
+                }
+            });
+        }
+
+        function moverCarrusel(direccion) {
+            posicionActual += direccion;
+            if (posicionActual < 0) {
+                posicionActual = slides.length - 1;
+            } else if (posicionActual >= slides.length) {
+                posicionActual = 0;
+            }
+            actualizarCarrusel();
+        }
+
+        botonIzquierda.addEventListener('click', () => moverCarrusel(-1));
+        botonDerecha.addEventListener('click', () => moverCarrusel(1));
+
+        // Inicializar el carrusel
+        actualizarCarrusel();
+    </script>
+</body>
+</html>
