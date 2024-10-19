@@ -76,7 +76,7 @@
         }
         .carrusel-boton {
             position: absolute;
-            top: 55%;
+            top: 50%;
             transform: translateY(-50%);
             background: rgba(255,255,255,0.2);
             color: #fff;
@@ -92,8 +92,8 @@
         .carrusel-boton:hover {
             background: rgba(255,255,255,0.4);
         }
-        .carrusel-boton-izquierda { left: 220px; }
-        .carrusel-boton-derecha { right: 220px; }
+        .carrusel-boton-izquierda { left: 10px; }
+        .carrusel-boton-derecha { right: 10px; }
     </style>
 </head>
 <body>
@@ -102,10 +102,9 @@
         <div class="carrusel-contenedor" id="carruselContenedor">
             <!-- Las imágenes se cargarán dinámicamente aquí -->
         </div>
-
+        <button class="carrusel-boton carrusel-boton-izquierda" id="botonIzquierda">&lt;</button>
+        <button class="carrusel-boton carrusel-boton-derecha" id="botonDerecha">&gt;</button>
     </div>
-    <button class="carrusel-boton carrusel-boton-izquierda" id="botonIzquierda">&lt;</button>
-    <button class="carrusel-boton carrusel-boton-derecha" id="botonDerecha">&gt;</button>
 
     <script>
         const carruselContenedor = document.getElementById('carruselContenedor');
